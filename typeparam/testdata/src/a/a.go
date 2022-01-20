@@ -16,3 +16,7 @@ func g() {
 
 type A[T ~bool] []T
 type B[T ~int] []T
+
+type C interface {
+	~string | int
+}
