@@ -74,7 +74,9 @@ func inDeps(path string, pkgs []*packages.Package) bool {
 		}
 
 		for _, p := range pkg.Imports() {
-			return in(p)
+			if in(p) {
+				return true
+			}
 		}
 
 		return false
@@ -98,12 +100,12 @@ func loadByMod(path string, mod *packages.Module, orgPkgs []*packages.Package, p
 
 	if err := copy.Copy(mod.Dir, tmp); err != nil {
 		return nil, err
-	}	
+	}
 
 	// import only
 	// TODO: remove import only file from analyzed result
 	for _, pkg := range orgPkgs {
-		f, err := os.CreateTemp(tmp, "imports-*.go") 
+		f, err := os.CreateTemp(tmp, "imports-*.go")
 		if err != nil {
 			return nil, err
 		}
